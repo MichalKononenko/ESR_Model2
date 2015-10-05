@@ -18,7 +18,6 @@ install:
   - export PATH=./src/qinfer:$PATH
   - conda install --yes python=$TRAVIS_PYTHON_VERSION numpy scipy matplotlib nose pip cython
   - pip install -r requirements.txt
-  - cd ./ESR_Model2
 
 script:
   - nosetests --with-coverage
