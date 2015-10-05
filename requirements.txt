@@ -1,0 +1,8 @@
+qutip
+numpy
+scipy
+sphinx
+
+coverage
+pytest
+pytest-cov
