@@ -62,7 +62,7 @@ class RotatingFrame(ReferenceFrame):
 
     def __init__(self, frequency):
         self.frequency = frequency
-        super().__init__()
+        ReferenceFrame.__init__(self)
 
     def get_rotation_operator(self, time):
         r"""
