@@ -4,6 +4,7 @@ Contains unit tests for mod:`reference_frames.py`
 import unittest
 import numpy as np
 import reference_frames as frames
+import qutip as q
 __author__ = 'Michal Kononenko'
 
 
@@ -36,7 +37,7 @@ class TestReferenceFrameDefaultArgs(unittest.TestCase):
 class TestStartTime(TestReferenceFrame):
 
     def setUp(self):
-        super().setUp()
+        TestReferenceFrame.setUp(self)
         self.new_time = 1
 
     def test_start_time_getter(self):
@@ -54,7 +55,7 @@ class TestStartTime(TestReferenceFrame):
 class TestEndTime(TestReferenceFrame):
 
     def setUp(self):
-        super().setUp()
+        TestReferenceFrame.setUp(self)
         self.new_time = 1
 
     def test_end_time_getter(self):
@@ -73,7 +74,7 @@ class TestEndTime(TestReferenceFrame):
 
 class TestNumberOfPoints(TestReferenceFrame):
     def setUp(self):
-        super().setUp()
+        TestReferenceFrame.setUp(self)
         self.new_number_of_points = 10000
 
     def test_number_of_points_getter(self):
@@ -104,7 +105,16 @@ class TestRotatingFrame(unittest.TestCase):
 
         self.frame.time_list = self.time_list
 
+
 class TestGetRotationOperator(TestRotatingFrame):
     def setUp(self):
-        super().setUp()
+        TestRotatingFrame.setUp(self)
         self.times_to_calc = np.array([0, np.pi/2])
+        self.expected_result =np.array(
+            np.cos(self.frequency * self.times_to_calc) * q.qeye(2) + \
+             1j* np.sin(self.frequency * self.times_to_calc) * q.sigmay()
+        )
+
+    def test_get_rotation_operator(self):
+        np.testing.assert_array_equal(self.expected_result,
+                         self.frame.get_rotation_operator(self.times_to_calc))
